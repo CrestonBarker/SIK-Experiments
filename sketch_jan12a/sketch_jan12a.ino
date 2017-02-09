@@ -12,11 +12,19 @@ void setup() {
 }
 
 void loop() {
- //oneAfterAnother();
- //oneAfterAnotherRevOff();
- //oneAtATime();
+  for(int i = 0; i < 5; i++){
+ oneAfterAnother();
+  }
+  for(int i = 0; i < 5; i++){
+ oneAfterAnotherRevOff();
+  }
+ for(int i = 0; i < 5; i++){
+ oneAtATime();
+ }
+ for(int i = 0; i < 5; i++){
  //pattern();
-  runner();
+ runner();
+ }
 }
 
 void oneAfterAnotherRevOff() {
@@ -28,7 +36,7 @@ void oneAfterAnotherRevOff() {
   delay(delayTime);
   }
   
-  for(int index = 5; index >= 0; index--) {
+  for(int index = 0; index <= 5; index++) {
   digitalWrite(ledPins[index], LOW);
   delay(delayTime);
   }

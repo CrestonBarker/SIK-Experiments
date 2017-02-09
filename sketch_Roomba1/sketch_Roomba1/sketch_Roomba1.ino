@@ -2,11 +2,13 @@
 
 //pin assignment
 
-int rxPin = 10; // from arduino  pin 10 to roomba pin 3
-int txPin = 11; // from srduino pin 11 to roomba pin 4
+//ground to 7/6
+
+int txPin = 11; // from arduino  pin 10 to roomba pin 3
+int rxPin = 10; // from srduino pin 11 to roomba pin 4
 int ddPin = 5; // from srduino pin 5 to roomba pin 5
 
-SoftwareSerial cereal(rxPin, txPin);
+SoftwareSerial cereal(txPin, rxPin);
 
 void setup() {
   Serial.begin(9600);
@@ -14,8 +16,8 @@ void setup() {
   Serial.println("Your uncle is a monkey");
 
   pinMode (ddPin, OUTPUT);
-  //pinMode (rxPin, );
   //pinMode (txPin, );
+  //pinMode (rxPin, );
   
   cereal.begin(19200);
   
@@ -40,15 +42,7 @@ void setup() {
 
   delay(1000);
 
-  cereal.write(7);
-
-  delay(1000);
-
-  cereal.write(128);
-
-  delay(1000);
-
-  cereal.write(135); //enter safe mode
+  cereal.write(131); //enter safe mode
 
   Serial.println("So we know it got here");
 
@@ -67,7 +61,16 @@ void setup() {
 
   //cereal.write(143); // return to dock
   
-  
+  forwards();
+  delay(2000);
+  spinR();
+  delay(500);
+  spinL();
+  forwards();
+  delay(6000);
+  spinL();
+  delay(500);
+  wheelStop();
   //Spin till you drop
   //spinTillYouDrop();
 }
@@ -80,11 +83,51 @@ void loop() {
 }
 
 void spinTillYouDrop(){
-  Serial.print("It got here too");
+  Serial.print("Spin till you drop");
   
   cereal.write(145); 
   cereal.write(0xff);   
   cereal.write(0x38);
   cereal.write(byte(00));
   cereal.write(0xc8);
+  }
+
+void forwards(){
+  Serial.print("Forwards");
+  
+  cereal.write(145); 
+  cereal.write(byte(1));   
+  cereal.write(byte(116));
+  cereal.write(byte(1));
+  cereal.write(byte(116));
+  }
+
+void spinR(){
+  Serial.print("spinR");
+  
+  cereal.write(145); 
+  cereal.write(0xff);   
+  cereal.write(0x38);
+  cereal.write(byte(00));
+  cereal.write(0xc8);
+  }
+
+void spinL(){
+  Serial.print("spinL");
+  
+  cereal.write(145); 
+  cereal.write(byte(00));
+  cereal.write(0xc8);
+  cereal.write(0xff);   
+  cereal.write(0x38);
+  }
+
+void wheelStop(){
+  Serial.print("spinL");
+  
+  cereal.write(145); 
+  cereal.write(byte(00));
+  cereal.write(byte(00));
+  cereal.write(byte(00));   
+  cereal.write(byte(00));
   }
